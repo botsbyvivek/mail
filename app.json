@@ -1,0 +1,33 @@
+{
+  "name": "Mailable",
+  "description": "A simple bot ",
+  "keywords": [
+    "telegram",
+    "python",
+    "bots"
+  ],
+  "website": "https://github.com/RabbitFored/mailable",
+  "repository": "https://github.com/RabbitFored/mailable",
+  "success_url": "https://t.me/mailableBot",
+  "env": {
+    "ENV": {
+      "description": "Setting this to ANYTHING will enable env variables",
+      "value": "OSTRICH"
+    },
+    "botTOKEN": {
+      "description": "Your bot token",
+      "value": ""
+    },
+     "PORT": {
+      "description": "Port to use for your webhooks",
+      "value": "5000"
+    },
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+   "buildpacks":
+ [ { "url": "heroku/python" } ]
+ }
