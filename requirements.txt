@@ -1,0 +1,12 @@
+constants==0.6.0
+dnspython
+quart
+pymongo==3.13.0
+pyromod
+Markdown
+Pyrogram
+TgCrypto
+PyYAML
+tldextract
+
+
