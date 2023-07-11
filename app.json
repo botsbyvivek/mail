@@ -31,13 +31,11 @@
       "value": "5000"
     },
     "mailgun_api": {
-      "description": "",
       "value": ""
     },
     "mongouri": {
-      "description": "",
       "value": ""
-    },
+    }
   },
   "formation": {
     "web": {
