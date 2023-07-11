@@ -21,7 +21,7 @@
     "apiHASH": {
       "description": "Your elegram api hash",
       "value": ""
-    },    
+    },
     "botTOKEN": {
       "description": "Your bot token",
       "value": ""
@@ -44,6 +44,5 @@
       "quantity": 1
     }
   },
-   "buildpacks":
- [ { "url": "heroku/python" } ]
+   "buildpacks": [ { "url": "heroku/python" } ]
  }
