@@ -9,7 +9,7 @@ if ENV:
     apiID = os.environ.get('apiID', None)
     apiHASH = os.environ.get('apiHASH', None)
     botTOKEN = os.environ.get('botTOKEN', None)
-  
+    port = int(os.environ.get("PORT", 5000))  
     mongouri = os.environ.get("mongouri", "")
     apikey = os.environ.get('mailgun_api', '')
   

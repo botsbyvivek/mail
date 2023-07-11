@@ -16,7 +16,7 @@ import pyromod.listen
 from quart import request, Response, send_file
 import time
 import pymongo
-from config import apiID, apiHASH, botTOKEN, mongouri, apikey
+from config import apiID, apiHASH, botTOKEN, mongouri, apikey, port
 from utils import strip_tags
 
 ostrich = Client("mailable",
@@ -1033,4 +1033,4 @@ async def broadcast(client, message):
 
 
 ostrich.start()
-app.run("0.0.0.0", loop=ostrich.loop, use_reloader=False)
+app.run("0.0.0.0", port,loop=ostrich.loop, use_reloader=False)
