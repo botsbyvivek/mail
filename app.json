@@ -14,13 +14,29 @@
       "description": "Setting this to ANYTHING will enable env variables",
       "value": "OSTRICH"
     },
+    "apiID": {
+      "description": "Your telegram api id",
+      "value": ""
+    },
+    "apiHASH": {
+      "description": "Your elegram api hash",
+      "value": ""
+    },    
     "botTOKEN": {
       "description": "Your bot token",
       "value": ""
     },
      "PORT": {
-      "description": "Port to use for your webhooks",
+      "description": "Port to run webpage",
       "value": "5000"
+    },
+    "mailgun_api": {
+      "description": "",
+      "value": ""
+    },
+    "mongouri": {
+      "description": "",
+      "value": ""
     },
   },
   "formation": {
