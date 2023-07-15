@@ -90,7 +90,8 @@ def add_mail(user,mail):
   mail = mail.lower()
   collection = database["usercache"]
   cursor = collection.find({'mails': mail })
-  if cursor.count() != 0:
+
+  if len(list(cursor)) != 0:
     return "exist"
   
   
@@ -137,9 +138,8 @@ def delete_mail(user,mail):
   collection=database["usercache"]
   filter = {"userid":user}
   values = { "$pull": { "mails":  mail}}
-  collection.update(filter, values)
+  collection.update_one(filter, values)
   statial("mails",-1)
-
   return mails
 
 
@@ -155,7 +155,6 @@ def get_limits(user):
     return plan
     
 def get_blocked(user):
-  filter =  {"userid":user}
   cursor = collection.find({"userid":user})
   for i in cursor:
     blocked = i["blocked"]
@@ -172,7 +171,7 @@ def unblock(user,option,values):
   filter = {"userid":user}
   for value in values:
     values = { "$pull": { f"blocked.{option}" : value}}
-    collection.update(filter, values)
+    collection.update_one(filter, values)
 
 
 def defaults(key):
@@ -186,7 +185,7 @@ def defaults(key):
 
 def statial(what,how):
   collection = database["statial"]
-  collection.update( {}, {"$inc": { what : how }} )
+  collection.update_one( {}, {"$inc": { what : how }} )
   return "ok"
   
 def get_statial():
