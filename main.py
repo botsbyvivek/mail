@@ -16,7 +16,7 @@ import pyromod.listen
 from quart import request, Response, send_file
 import time
 import pymongo
-from config import apiID, apiHASH, botTOKEN, mongouri, apikey
+from config import apiID, apiHASH, botTOKEN, mongouri, apikey, port
 from utils import strip_tags
 
 ostrich = Client("mailable",
@@ -24,6 +24,18 @@ ostrich = Client("mailable",
                  api_hash=apiHASH,
                  bot_token=botTOKEN)
 
+@ostrich.on_message(filters.command(["start"]))
+async def start(client, message):
+  await message.reply_text(
+    text=f"**Hello {message.from_user.mention} 👋 !\n\n"
+    "I am a mail bot. You can use me to send or receive mails.\n\nHit help to know more on using me.**",
+    disable_web_page_preview=True,
+    reply_markup=InlineKeyboardMarkup([[
+      InlineKeyboardButton("HELP", callback_data="getHelp"),
+      InlineKeyboardButton("Privacy Policy", callback_data="prp"),
+    ]]),
+    reply_to_message_id=message.id)
+  database.scrape(message)
 
 
 async def send_mail(sender, client, message):
@@ -34,7 +46,6 @@ async def send_mail(sender, client, message):
       f"**The domain {domain} is not maintained by us.\nUse /domains to check list of available domains.\n\nIf you are the owner of {domain[1]} and interested to use it in this bot, contact us at @ostrichdiscussion.**"
     )
     return
-  userid = message.chat.id
 
   to = await message.chat.ask('**Send me recipient mail**')
 
@@ -101,11 +112,11 @@ async def blocks(client, message):
     regex = regex + f"     - {i}\n"
 
   if len(blocks['domains']) == 0:
-    domains = domains + f"     - None"
+    domains = domains + "     - None"
   if len(blocks['mails']) == 0:
-    mails = mails + f"     - None"
+    mails = mails + "     - None"
   if len(blocks['regex']) == 0:
-    regex = regex + f"     - None"
+    regex = regex + "     - None"
 
   text = f'''
 **Your blocklist:**
@@ -173,21 +184,6 @@ async def unblock_mail(client, message):
       InlineKeyboardButton("domain", callback_data="unblock_domains"),
     ], [InlineKeyboardButton("regex", callback_data="unblock_regex")]]),
     disable_web_page_preview=True)
-
-
-@ostrich.on_message(filters.command(["start"]))
-async def start(client, message):
-
-  await message.reply_text(
-    text=f"**Hello {message.from_user.mention} 👋 !\n\n"
-    "I am mail bot. I can forward all your mails here.\n\nHit help to know more on using me.**",
-    disable_web_page_preview=True,
-    reply_markup=InlineKeyboardMarkup([[
-      InlineKeyboardButton("HELP", callback_data="getHelp"),
-      InlineKeyboardButton("Privacy Policy", callback_data="prp"),
-    ]]),
-    reply_to_message_id=message.id)
-  database.scrape(message)
 
 
 @ostrich.on_message(filters.command(["user"]))
@@ -262,7 +258,7 @@ __Help us by sponsoring a domain or [buy us a cup of tea](https://ko-fi.com/rabb
 
 
 @ostrich.on_message(filters.command(["help"]))
-async def assist(client, message):
+async def get_help(client, message):
   text = '''
 **Here is an detailed guide on using me.**
 
@@ -295,7 +291,8 @@ async def assist(client, message):
                                InlineKeyboardButton(
                                  "Get Help", url="t.me/ostrichdiscussion"),
                              ],
-                           ]))
+                           ]),
+    reply_to_message_id=message.id)
 
 
 @ostrich.on_message(filters.command(["about"]))
@@ -586,7 +583,6 @@ async def cb_handler(client, query):
     await query.message.delete()
 
   elif query.data == "nope":
-
     await query.message.delete()
   elif query.data.startswith('delete'):
     await query.answer()
@@ -600,7 +596,7 @@ async def cb_handler(client, query):
 
   elif query.data == "getHelp":
     await query.answer()
-    await assist(client, query.message)
+    await get_help(client, query.message.reply_to_message)
     await query.message.delete()
   elif query.data == "back_to_start":
     await query.answer()
@@ -1033,4 +1029,4 @@ async def broadcast(client, message):
 
 
 ostrich.start()
-app.run("0.0.0.0", loop=ostrich.loop, use_reloader=False)
+app.run("0.0.0.0", port, loop=ostrich.loop, use_reloader=False)
