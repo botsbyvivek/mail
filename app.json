@@ -29,12 +29,6 @@
      "PORT": {
       "description": "Port to run webpage",
       "value": "5000"
-    },
-    "mailgun_api": {
-      "value": ""
-    },
-    "mongouri": {
-      "value": ""
     }
   },
   "formation": {
