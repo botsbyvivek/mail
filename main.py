@@ -88,7 +88,7 @@ async def send_mail(sender, client, message):
                     })
   print(r.text)
   await ostrich.send_message(message.chat.id,
-                             f"**Mail queued successfully.**",
+                             "**Mail queued successfully.**",
                              reply_markup=InlineKeyboardMarkup([[
                                InlineKeyboardButton(
                                  "Get Help",
