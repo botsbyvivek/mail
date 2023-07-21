@@ -1,6 +1,8 @@
 from io import StringIO
 from html.parser import HTMLParser
 import re
+import hashlib, hmac
+import os
 
 class MLStripper(HTMLParser):
   def __init__(self):
@@ -28,3 +30,12 @@ def strip_script_tags(page_source: str) -> str:
     pattern2 = re.compile(r'<script[\s\S]+?/script>')
     result = re.sub(pattern2, "", result)
     return result
+
+def verify_mailgun(domain, token, timestamp, signature):
+    signing_key =  os.environ['sign2']
+    if domain in ["seemsgood.us" , "slayy.tv"]:
+       signing_key =  os.environ['sign1']
+    hmac_digest = hmac.new(key=signing_key.encode(),
+                           msg=('{}{}'.format(timestamp, token)).encode(),
+                           digestmod=hashlib.sha256).hexdigest()
+    return hmac.compare_digest(str(signature), str(hmac_digest))
