@@ -167,6 +167,7 @@ venv/
 #Pyrogram
 *.session
 *.session-journal
+downloads/
 
 #mailable
 user/

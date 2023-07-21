@@ -55,7 +55,6 @@ def scrape(data):
     if (userexist == False):
         collection.insert_one(scraped)
         statial("users",1)
-    
 def user_info(userid):
   collection=database["usercache"]
 
@@ -66,9 +65,7 @@ def user_info(userid):
 
   cursor = collection.find({"userid":int(userid)})
   for user in cursor:
-     return user
-    
-  
+     return user   
 def user_exist(chatid,chattype):
     collection = database["usercache"]
     if chattype == 'group' or chattype == "supergroup":
@@ -85,7 +82,6 @@ def user_exist(chatid,chattype):
         userexist = False
 
     return userexist
-
 def add_mail(user,mail):
   mail = mail.lower()
   collection = database["usercache"]
@@ -194,3 +190,19 @@ def get_statial():
   for i in cursor:
     value = i
   return value
+
+def is_premium(user):
+  result = collection.find_one({'userid': user})
+  plan = result["plan"]["type"]
+  if plan == "premium":
+     return True
+  else:
+    return False
+
+def get_user_domains(user):
+  result = collection.find_one({'userid': user})
+  if result.get("user_domains"):
+    return result["user_domains"]
+  else:
+    return []
+  
