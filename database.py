@@ -194,3 +194,12 @@ def get_statial():
   for i in cursor:
     value = i
   return value
+
+def is_premium(user):
+  result = collection.find_one({'userid': user})
+  plan = result["plan"]["type"]
+  if plan == "premium":
+     return True
+  else:
+    return False
+  

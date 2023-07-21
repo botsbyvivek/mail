@@ -39,6 +39,7 @@ async def start(client, message):
 
 
 async def send_mail(sender, client, message):
+  #print(database.is_premium( message.chat.id))
   domain = sender.split("@")[1]
   if domain.lower() not in domains:
     await ostrich.send_message(
@@ -85,7 +86,10 @@ async def send_mail(sender, client, message):
                       "to": mail,
                       "subject": subject.text,
                       "text": body.text
-                    })
+                    },
+                   files=[("attachment", ("README.md", open("README.md","rb").read()))]
+                   )
+  
   print(r.text)
   await ostrich.send_message(message.chat.id,
                              "**Mail queued successfully.**",
