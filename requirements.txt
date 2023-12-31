@@ -6,7 +6,7 @@ pyromod==2.0.0
 Markdown==3.4.3
 Pyrogram==2.0.106
 TgCrypto==1.2.5
-PyYAML==6.0.0
+PyYAML==5.3.1
 tldextract==3.4.4
 
 
